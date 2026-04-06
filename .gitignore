@@ -2,56 +2,56 @@ Wesnoth Unit Finder
 A C++ utility designed to recursively parse and index Wesnoth Markup Language (WML) configuration files. This project demonstrates a custom, systems-level implementation of a Hash Table using manual memory management and collision handling.
 
 Features
-Custom WML Parsing: Uses std::filesystem to recursively navigate directory structures and std::stringstream to extract unit attributes such as Level, Cost, and Usage.
+	- Custom WML Parsing: Uses std::filesystem to recursively navigate directory structures and std::stringstream to 			extract unit attributes such as Level, Cost, and Usage.
 
-Data Sanitization: Implements logic to handle WML-specific formatting, including the removal of braced macros (e.g., {SPECIAL_NOTES}) and stripping translation prefixes.
+	- Data Sanitization: Implements logic to handle WML-specific formatting, including the removal of braced macros (e.g., {SPECIAL_NOTES}) and stripping translation prefixes.
 
-O(1) Search Performance: A case-insensitive command-line interface for instant unit lookups.
+	- O(1) Search Performance: A case-insensitive command-line interface for instant unit lookups.
 
-Manual Memory Control: Implements a low-level Hash Table using malloc and placement new for precise object lifecycle management.
+	- Manual Memory Control: Implements a low-level Hash Table using malloc and placement new for precise object lifecycle management.
 
 Technical Implementation
 1. Hash Table Architecture
 Instead of using standard library containers, this project utilizes a template-based Hash Table implemented from scratch:
 
-Hashing Algorithm: Employs the djb2 hash function for high-speed string distribution.
+	- Hashing Algorithm: Employs the djb2 hash function for high-speed string distribution.
 
-Collision Resolution: Utilizes Linear Probing (Open Addressing) with a custom chain_fixer logic to maintain index integrity during item removal.
+	- Collision Resolution: Utilizes Linear Probing (Open Addressing) with a custom chain_fixer logic to maintain index integrity during item removal.
 
-Dynamic Resizing: Automatically doubles capacity and re-hashes all entries once the load factor exceeds 0.5.
+	- Dynamic Resizing: Automatically doubles capacity and re-hashes all entries once the load factor exceeds 0.5.
 
 2. Memory Management
 The project demonstrates low-level memory handling to optimize performance:
 
-Raw Allocation: Uses malloc for the underlying table structure to control memory alignment and allocation.
+	- Raw Allocation: Uses malloc for the underlying table structure to control memory alignment and allocation.
 
-Object Lifecycle: Utilizes placement new to construct Key and Value objects only when an entry is active, paired with explicit destructor calls to prevent memory leaks.
+	- Object Lifecycle: Utilizes placement new to construct Key and Value objects only when an entry is active, paired with explicit destructor calls to prevent memory leaks.
 
 3. Standards and Tools
-C++17/20: Leverages std::filesystem::recursive_directory_iterator for efficient traversal of complex directory trees.
+	- C++17/20: Leverages std::filesystem::recursive_directory_iterator for efficient traversal of complex directory trees.
 
-STL Integration: Uses std::transform and lambdas for data normalization and string manipulation.
+	- STL Integration: Uses std::transform and lambdas for data normalization and string manipulation.
 
 Data Source
 This project parses unit definitions from The Battle for Wesnoth.
 
-License: Game data is licensed under GNU GPL v2.
+	- License: Game data is licensed under GNU GPL v2.
 
-Official Repository: Full unit files are available via the Wesnoth GitHub mirror.
+	- Official Repository: Full unit files are available via the Wesnoth GitHub mirror.
 
 Getting Started
 Prerequisites
-A compiler supporting C++17 or higher (GCC 8+, Clang 7+, or MSVC 19.14+).
+	- A compiler supporting C++17 or higher (GCC 8+, Clang 7+, or MSVC 19.14+).
 
-The wesnoth/units data folder must be located in the application's working directory.
+	- The wesnoth/units data folder must be located in the application's working directory.
 
 Build and Run
-Clone the repository.
+1. Clone the repository.
 
-Navigate to the source directory.
+2. Navigate to the source directory.
 
-Compile using a C++17 compliant compiler:
+3. Compile using a C++17 compliant compiler:
 g++ -std=c++17 main.cpp -o UnitFinder
 
-Execute the application:
+4. Execute the application:
 ./UnitFinder
